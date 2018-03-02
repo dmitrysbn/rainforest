@@ -1,10 +1,13 @@
 class ReviewsController < ApplicationController
 
+  before_action :ensure_logged_in
+
   def create
     @review = Review.new
 
     @review.comment = params[:review][:comment]
     @review.product_id = params[:product_id]
+    @review.user_id = current_user.id
 
     if @review.save
       redirect_to "/products/#{params[:product_id]}"
